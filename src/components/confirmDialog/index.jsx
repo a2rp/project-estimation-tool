@@ -1,14 +1,43 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { LuTrash2, LuX } from 'react-icons/lu'
 import styles from './styles.module.css'
 
 const ConfirmDialog = ({ title, description, itemName, confirmLabel, onClose, onConfirm }) => {
+  const dialogRef = useRef(null)
+
   useEffect(() => {
-    const closeOnEscape = (event) => {
-      if (event.key === 'Escape') onClose()
+    const previousFocus = document.activeElement
+    const cancelButton = dialogRef.current?.querySelector('[data-cancel]')
+    cancelButton?.focus()
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        onClose()
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const buttons = dialogRef.current?.querySelectorAll('button:not(:disabled)')
+      if (!buttons?.length) return
+
+      const firstButton = buttons[0]
+      const lastButton = buttons[buttons.length - 1]
+
+      if (event.shiftKey && document.activeElement === firstButton) {
+        event.preventDefault()
+        lastButton.focus()
+      } else if (!event.shiftKey && document.activeElement === lastButton) {
+        event.preventDefault()
+        firstButton.focus()
+      }
     }
-    document.addEventListener('keydown', closeOnEscape)
-    return () => document.removeEventListener('keydown', closeOnEscape)
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      previousFocus?.focus()
+    }
   }, [onClose])
 
   const confirmAction = () => {
@@ -25,6 +54,7 @@ const ConfirmDialog = ({ title, description, itemName, confirmLabel, onClose, on
     >
       <section
         className={styles.dialog}
+        ref={dialogRef}
         role="alertdialog"
         aria-modal="true"
         aria-labelledby="confirm-dialog-title"
@@ -42,7 +72,7 @@ const ConfirmDialog = ({ title, description, itemName, confirmLabel, onClose, on
           {itemName && <strong className={styles.itemName}>{itemName}</strong>}
         </div>
         <footer className={styles.actions}>
-          <button className={styles.cancelButton} type="button" onClick={onClose} autoFocus>
+          <button className={styles.cancelButton} type="button" onClick={onClose} data-cancel>
             Cancel
           </button>
           <button className={styles.confirmButton} type="button" onClick={confirmAction}>
