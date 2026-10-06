@@ -84,7 +84,7 @@ export const calculateEstimate = (estimate) => {
     0,
   )
   const expenses = Number(estimate.expenses) || 0
-  const contingency = labor * ((Number(estimate.contingency) || 0) / 100)
+  const contingency = (labor + expenses) * ((Number(estimate.contingency) || 0) / 100)
   const cost = labor + expenses + contingency
   const marginRate = Math.min(Number(estimate.margin) || 0, 99)
   const subtotal = marginRate ? cost / (1 - marginRate / 100) : cost

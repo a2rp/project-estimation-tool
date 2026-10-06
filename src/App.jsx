@@ -3,6 +3,7 @@ import ConfirmDialog from './components/confirmDialog/index.jsx'
 import EstimateEditor from './components/estimateEditor/index.jsx'
 import EstimateIntro from './components/estimateIntro/index.jsx'
 import EstimateLibrary from './components/estimateLibrary/index.jsx'
+import EstimateSummary from './components/estimateSummary/index.jsx'
 import Header from './components/header/index.jsx'
 import { createEstimate, loadEstimates, saveEstimates } from './data/estimates.js'
 import styles from './App.module.css'
@@ -92,6 +93,11 @@ const App = () => {
               <p>Create a new estimate to begin planning a project.</p>
               <button type="button" onClick={addEstimate}>Create estimate</button>
             </section>
+          )}
+          {activeEstimate && (
+            <div className={styles.summaryPanel}>
+              <EstimateSummary estimate={activeEstimate} onChange={updateEstimate} />
+            </div>
           )}
         </div>
       </main>

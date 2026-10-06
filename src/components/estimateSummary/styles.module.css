@@ -1,0 +1,238 @@
+.summary {
+  align-self: start;
+  min-width: 0;
+  padding: 20px;
+  color: var(--color-white);
+  background: var(--color-ink);
+  border: 1px solid var(--color-line-dark);
+  border-radius: 16px;
+
+  .heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 6px;
+
+    button {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      color: #d7e5e1;
+      background: rgb(255 255 255 / 7%);
+      border: 1px solid #526663;
+      border-radius: 8px;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &:hover,
+      &:focus-visible {
+        border-color: #72d2c0;
+        outline: none;
+        box-shadow: 0 3px 10px rgb(114 210 192 / 14%);
+      }
+    }
+  }
+
+  .total {
+    display: grid;
+    gap: 3px;
+    margin-top: 17px;
+    padding: 17px;
+    background: #263c39;
+    border: 1px solid #3c5752;
+    border-radius: 12px;
+
+    span {
+      color: #a9c1bb;
+      font-size: 12px;
+    }
+
+    strong {
+      overflow-wrap: anywhere;
+      color: #8fe1d0;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1.15;
+    }
+  }
+
+  .time {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 10px;
+
+    div {
+      display: grid;
+      gap: 2px;
+      padding: 11px 12px;
+      background: rgb(255 255 255 / 5%);
+      border: 1px solid #3c5752;
+      border-radius: 10px;
+    }
+
+    span {
+      color: #a9c1bb;
+      font-size: 11px;
+    }
+
+    strong {
+      font-size: 16px;
+    }
+  }
+
+  .breakdown {
+    display: grid;
+    gap: 9px;
+    margin-top: 20px;
+
+    h3,
+    .assumptions h3 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: #b9cbc7;
+      font-size: 12px;
+
+      strong {
+        color: #f8fbf8;
+        font-size: 12px;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+
+      &:nth-of-type(4) {
+        margin-top: 3px;
+        padding-top: 9px;
+        color: #e3efeb;
+        border-top: 1px solid #435b57;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .assumptions {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 17px;
+    border-top: 1px solid #435b57;
+
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    label {
+      display: grid;
+      min-width: 0;
+      gap: 5px;
+
+      span {
+        color: #b9cbc7;
+        font-size: 11px;
+      }
+
+      input {
+        width: 100%;
+        min-width: 0;
+        height: 37px;
+        padding: 0 9px;
+        color: var(--color-ink);
+        background: var(--color-white);
+        border: 1px solid #d5e1dc;
+        border-radius: 7px;
+        outline: none;
+        font-size: 13px;
+        transition: border-color 160ms ease, box-shadow 160ms ease;
+
+        &:focus {
+          border-color: #72d2c0;
+          box-shadow: 0 0 0 3px rgb(114 210 192 / 16%);
+        }
+      }
+    }
+
+    .rates {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    p {
+      color: #a9c1bb;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    padding: 18px;
+
+    .assumptions {
+      grid-template-columns: 1fr 2fr;
+      align-items: end;
+
+      h3,
+      p {
+        grid-column: 1 / -1;
+      }
+
+      .rates {
+        grid-column: 2;
+        grid-row: 2;
+      }
+    }
+  }
+
+  @media (max-width: 760px) {
+    padding: 18px;
+
+    .assumptions {
+      grid-template-columns: 1fr;
+
+      h3,
+      p,
+      .rates {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .rates {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  }
+
+  @media (max-width: 420px) {
+    padding: 16px;
+
+    .heading h2 {
+      font-size: 20px;
+    }
+
+    .total strong {
+      font-size: 30px;
+    }
+  }
+}
