@@ -1,0 +1,18 @@
+.app {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  gap: 8px;
+  color: var(--color-ink);
+  background: var(--color-page);
+  text-align: center;
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 44px;
+  }
+
+  p {
+    color: var(--color-muted);
+  }
+}
