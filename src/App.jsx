@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import BackToTop from './components/backToTop/index.jsx'
 import ConfirmDialog from './components/confirmDialog/index.jsx'
 import EstimateEditor from './components/estimateEditor/index.jsx'
 import EstimateIntro from './components/estimateIntro/index.jsx'
@@ -101,6 +102,7 @@ const App = () => {
           )}
         </div>
       </main>
+      <BackToTop />
       {pendingDelete && (
         <ConfirmDialog
           title={pendingDelete.type === 'estimate' ? 'Delete estimate?' : 'Delete work item?'}
