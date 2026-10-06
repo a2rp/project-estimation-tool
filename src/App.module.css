@@ -16,27 +16,6 @@
     padding: 112px 0 64px;
   }
 
-  .intro {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 24px;
-
-    h1 {
-      max-width: 700px;
-      font-family: var(--font-display);
-      font-size: clamp(38px, 5vw, 62px);
-      letter-spacing: -1.8px;
-      line-height: 1.02;
-    }
-
-    p {
-      max-width: 330px;
-      color: var(--color-muted);
-      font-size: 16px;
-    }
-  }
-
   .estimate,
   .saved {
     padding: 30px;
@@ -60,16 +39,6 @@
       width: calc(100% - 32px);
       gap: 16px;
       padding: 88px 0 44px;
-    }
-
-    .intro {
-      align-items: start;
-      flex-direction: column;
-      gap: 10px;
-
-      h1 {
-        max-width: 520px;
-      }
     }
 
     .estimate,
