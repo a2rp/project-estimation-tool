@@ -21,7 +21,6 @@
 
   &:hover,
   &:focus-visible {
-    background: var(--color-teal-dark);
     border-color: #72d2c0;
     outline: none;
     box-shadow: 0 7px 22px rgb(13 47 43 / 30%);
