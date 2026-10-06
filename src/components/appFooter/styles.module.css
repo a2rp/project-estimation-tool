@@ -1,0 +1,122 @@
+.footer {
+  padding: 28px max(24px, calc((100vw - 1320px) / 2)) 32px;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-line);
+
+  .content {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.8fr);
+    align-items: center;
+    gap: 32px;
+    max-width: 1320px;
+    margin-inline: auto;
+  }
+
+  .identity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    > a {
+      display: grid;
+      flex: 0 0 42px;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      background: var(--color-white);
+      border: 1px solid var(--color-line);
+      border-radius: 10px;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+
+      &:hover,
+      &:focus-visible {
+        border-color: #9cbdb6;
+        outline: none;
+        box-shadow: 0 3px 10px rgb(29 43 42 / 9%);
+      }
+    }
+
+    img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    p {
+      color: var(--color-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    p a {
+      color: var(--color-ink);
+      font-weight: 700;
+    }
+
+    p a:hover,
+    p a:focus-visible {
+      color: var(--color-teal-dark);
+      outline: none;
+    }
+  }
+
+  .groups {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(170px, 0.55fr);
+    gap: 22px;
+  }
+
+  .group {
+    h2 {
+      margin-bottom: 8px;
+      color: var(--color-ink);
+      font-size: 12px;
+      font-weight: 750;
+    }
+  }
+
+  .linkList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+  }
+
+  .link {
+    color: var(--color-muted);
+    font-size: 12px;
+    transition: color 160ms ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-teal-dark);
+      outline: none;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .content {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    padding: 24px 16px 30px;
+
+    .groups {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .identity {
+      align-items: flex-start;
+
+      img {
+        width: 31px;
+        height: 31px;
+      }
+    }
+  }
+}

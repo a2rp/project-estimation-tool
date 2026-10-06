@@ -5,6 +5,7 @@ import EstimateEditor from './components/estimateEditor/index.jsx'
 import EstimateIntro from './components/estimateIntro/index.jsx'
 import EstimateLibrary from './components/estimateLibrary/index.jsx'
 import EstimateSummary from './components/estimateSummary/index.jsx'
+import Footer from './components/appFooter/index.jsx'
 import Header from './components/header/index.jsx'
 import { createEstimate, loadEstimates, saveEstimates } from './data/estimates.js'
 import styles from './App.module.css'
@@ -102,6 +103,7 @@ const App = () => {
           )}
         </div>
       </main>
+      <Footer />
       <BackToTop />
       {pendingDelete && (
         <ConfirmDialog
