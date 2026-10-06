@@ -235,4 +235,82 @@
       font-size: 30px;
     }
   }
+
+  @media print {
+    color: #1d2b2a;
+    background: #ffffff;
+    border-color: #dce5e1;
+    box-shadow: none;
+    print-color-adjust: exact;
+
+    .actions {
+      display: none;
+    }
+
+    .total {
+      background: #f4f7f4;
+      border-color: #dce5e1;
+
+      span {
+        color: #536762;
+      }
+
+      strong {
+        color: #0d665f;
+      }
+    }
+
+    .time {
+      div {
+        background: #f7faf8;
+        border-color: #dce5e1;
+      }
+
+      span {
+        color: #536762;
+      }
+
+      strong {
+        color: #1d2b2a;
+      }
+    }
+
+    .breakdown {
+      h3 {
+        color: #1d2b2a;
+      }
+
+      > div {
+        color: #536762;
+
+        strong {
+          color: #1d2b2a;
+        }
+
+        &:nth-of-type(4) {
+          color: #1d2b2a;
+          border-color: #dce5e1;
+        }
+      }
+    }
+
+    .assumptions {
+      border-color: #dce5e1;
+
+      h3 {
+        color: #1d2b2a;
+      }
+
+      label span,
+      p {
+        color: #536762;
+      }
+
+      label input {
+        color: #1d2b2a;
+        background: #ffffff;
+        border-color: #c6d4cf;
+      }
+    }
+  }
 }

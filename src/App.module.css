@@ -105,4 +105,37 @@
       width: calc(100% - 24px);
     }
   }
+
+  @media print {
+    background: #ffffff;
+
+    > header,
+    > footer,
+    > [aria-label="Back to top"] {
+      display: none;
+    }
+
+    .workspace {
+      width: 100%;
+      gap: 12px;
+      padding: 0;
+    }
+
+    .workspace > section {
+      display: none;
+    }
+
+    .workbench {
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 12px;
+    }
+
+    .workbench > [aria-label="Saved estimates"] {
+      display: none;
+    }
+
+    .summaryPanel {
+      grid-column: auto;
+    }
+  }
 }
