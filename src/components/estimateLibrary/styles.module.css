@@ -46,7 +46,6 @@
 
     &:hover,
     &:focus-visible {
-      background: var(--color-teal-dark);
       border-color: var(--color-teal-dark);
       outline: none;
       box-shadow: 0 4px 12px rgb(20 127 117 / 20%);
@@ -145,8 +144,6 @@
 
     &:hover,
     &:focus-visible {
-      color: #ad4b34;
-      background: var(--color-coral-soft);
       border-color: #edc7b9;
       outline: none;
       box-shadow: 0 2px 8px rgb(220 117 88 / 14%);
