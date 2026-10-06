@@ -50,13 +50,16 @@
 
     p a {
       color: var(--color-ink);
+      border-bottom: 1px solid transparent;
       font-weight: 700;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
     }
 
     p a:hover,
     p a:focus-visible {
-      color: var(--color-teal-dark);
+      border-color: var(--color-teal-dark);
       outline: none;
+      box-shadow: 0 1px 0 rgb(20 127 117 / 16%);
     }
   }
 
