@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import ConfirmDialog from './components/confirmDialog/index.jsx'
+import EstimateEditor from './components/estimateEditor/index.jsx'
 import EstimateIntro from './components/estimateIntro/index.jsx'
 import EstimateLibrary from './components/estimateLibrary/index.jsx'
 import Header from './components/header/index.jsx'
-import { calculateEstimate, createEstimate, formatMoney, loadEstimates, saveEstimates } from './data/estimates.js'
+import { createEstimate, loadEstimates, saveEstimates } from './data/estimates.js'
 import styles from './App.module.css'
 
 const App = () => {
   const [estimates, setEstimates] = useState(loadEstimates)
-  const [activeId, setActiveId] = useState(() => loadEstimates()[0]?.id ?? null)
+  const [activeId, setActiveId] = useState(() => estimates[0]?.id ?? null)
   const [pendingDelete, setPendingDelete] = useState(null)
   const activeEstimate = estimates.find((estimate) => estimate.id === activeId)
 
@@ -22,15 +23,49 @@ const App = () => {
     setActiveId(estimate.id)
   }
 
-  const deleteEstimate = () => {
-    setEstimates((current) => {
-      const remaining = current.filter((estimate) => estimate.id !== pendingDelete.id)
-      if (activeId === pendingDelete.id) setActiveId(remaining[0]?.id ?? null)
-      return remaining
+  const updateEstimate = (updatedEstimate) => {
+    setEstimates((current) => current.map((estimate) => (
+      estimate.id === updatedEstimate.id ? updatedEstimate : estimate
+    )))
+  }
+
+  const requestDeleteEstimate = (estimate) => {
+    setPendingDelete({
+      type: 'estimate',
+      id: estimate.id,
+      name: estimate.title || 'Untitled estimate',
     })
   }
 
-  const summary = activeEstimate ? calculateEstimate(activeEstimate) : null
+  const requestDeleteItem = (item) => {
+    setPendingDelete({
+      type: 'item',
+      id: activeEstimate.id,
+      itemId: item.id,
+      name: item.work || 'Untitled work item',
+    })
+  }
+
+  const deleteSelection = () => {
+    if (!pendingDelete) return
+
+    if (pendingDelete.type === 'estimate') {
+      const remaining = estimates.filter((estimate) => estimate.id !== pendingDelete.id)
+      setEstimates(remaining)
+      if (activeId === pendingDelete.id) setActiveId(remaining[0]?.id ?? null)
+      return
+    }
+
+    setEstimates((current) => current.map((estimate) => (
+      estimate.id === pendingDelete.id
+        ? {
+            ...estimate,
+            items: estimate.items.filter((item) => item.id !== pendingDelete.itemId),
+            updatedAt: new Date().toISOString(),
+          }
+        : estimate
+    )))
+  }
 
   return (
     <div className={styles.app} id="top">
@@ -38,43 +73,40 @@ const App = () => {
       <main className={styles.workspace}>
         <EstimateIntro />
         <div className={styles.workbench}>
-          <section className={styles.estimate} id="estimate">
-            {activeEstimate ? (
-              <>
-                <h2>{activeEstimate.title}</h2>
-                <p>{activeEstimate.client || 'Add a client and project details to get started.'}</p>
-                <div className={styles.summary}>
-                  <span>{summary.hours} planned hours</span>
-                  <strong>{formatMoney(summary.total, activeEstimate.currency)}</strong>
-                </div>
-                <p className={styles.note}>Project details and the editable work plan are coming next.</p>
-              </>
-            ) : (
-              <div className={styles.empty}>
-                <h2>No estimate selected</h2>
-                <p>Create a new estimate to begin planning a project.</p>
-              </div>
-            )}
-          </section>
-          <div id="saved-estimates">
-            <EstimateLibrary
-              estimates={estimates}
-              activeId={activeId}
-              onSelect={setActiveId}
-              onCreate={addEstimate}
-              onRequestDelete={setPendingDelete}
+          <EstimateLibrary
+            estimates={estimates}
+            activeId={activeId}
+            onSelect={setActiveId}
+            onCreate={addEstimate}
+            onRequestDelete={requestDeleteEstimate}
+          />
+          {activeEstimate ? (
+            <EstimateEditor
+              estimate={activeEstimate}
+              onChange={updateEstimate}
+              onRequestDeleteItem={requestDeleteItem}
             />
-          </div>
+          ) : (
+            <section className={styles.empty} id="estimate">
+              <h2>No estimate selected</h2>
+              <p>Create a new estimate to begin planning a project.</p>
+              <button type="button" onClick={addEstimate}>Create estimate</button>
+            </section>
+          )}
         </div>
       </main>
       {pendingDelete && (
         <ConfirmDialog
-          title="Delete estimate?"
-          description="This will remove the saved estimate from this browser."
-          itemName={pendingDelete.title || 'Untitled estimate'}
-          confirmLabel="Delete estimate"
+          title={pendingDelete.type === 'estimate' ? 'Delete estimate?' : 'Delete work item?'}
+          description={
+            pendingDelete.type === 'estimate'
+              ? 'This estimate and its work plan will be deleted from this browser.'
+              : 'This line will be removed from the estimate.'
+          }
+          itemName={pendingDelete.name}
+          confirmLabel={pendingDelete.type === 'estimate' ? 'Delete estimate' : 'Delete item'}
           onClose={() => setPendingDelete(null)}
-          onConfirm={deleteEstimate}
+          onConfirm={deleteSelection}
         />
       )}
     </div>

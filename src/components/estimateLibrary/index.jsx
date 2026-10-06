@@ -3,7 +3,7 @@ import { calculateEstimate, formatDate, formatMoney } from '../../data/estimates
 import styles from './styles.module.css'
 
 const EstimateLibrary = ({ estimates, activeId, onSelect, onCreate, onRequestDelete }) => (
-  <aside className={styles.library} aria-label="Saved estimates">
+  <aside className={styles.library} aria-label="Saved estimates" id="saved-estimates">
     <div className={styles.heading}>
       <div>
         <h2>Estimates</h2>
