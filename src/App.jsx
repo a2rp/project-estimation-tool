@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import BackToTop from './components/backToTop/index.jsx'
 import ConfirmDialog from './components/confirmDialog/index.jsx'
 import EstimateEditor from './components/estimateEditor/index.jsx'
@@ -12,22 +12,33 @@ import styles from './App.module.css'
 
 const App = () => {
   const [estimates, setEstimates] = useState(loadEstimates)
+  const [saveStatus, setSaveStatus] = useState(() => {
+    try {
+      return window.localStorage.getItem('scopecraft-estimates')
+        ? 'Saved in this browser'
+        : 'Ready to save in this browser'
+    } catch {
+      return 'Browser storage is unavailable'
+    }
+  })
   const [activeId, setActiveId] = useState(() => estimates[0]?.id ?? null)
   const [pendingDelete, setPendingDelete] = useState(null)
   const activeEstimate = estimates.find((estimate) => estimate.id === activeId)
 
-  useEffect(() => {
-    saveEstimates(estimates)
-  }, [estimates])
+  const saveEstimateList = (nextEstimates) => {
+    setEstimates(nextEstimates)
+    const saved = saveEstimates(nextEstimates)
+    setSaveStatus(saved ? 'Saved in this browser' : 'Browser storage is unavailable')
+  }
 
   const addEstimate = () => {
     const estimate = createEstimate()
-    setEstimates((current) => [estimate, ...current])
+    saveEstimateList([estimate, ...estimates])
     setActiveId(estimate.id)
   }
 
   const updateEstimate = (updatedEstimate) => {
-    setEstimates((current) => current.map((estimate) => (
+    saveEstimateList(estimates.map((estimate) => (
       estimate.id === updatedEstimate.id ? updatedEstimate : estimate
     )))
   }
@@ -54,12 +65,12 @@ const App = () => {
 
     if (pendingDelete.type === 'estimate') {
       const remaining = estimates.filter((estimate) => estimate.id !== pendingDelete.id)
-      setEstimates(remaining)
+      saveEstimateList(remaining)
       if (activeId === pendingDelete.id) setActiveId(remaining[0]?.id ?? null)
       return
     }
 
-    setEstimates((current) => current.map((estimate) => (
+    saveEstimateList(estimates.map((estimate) => (
       estimate.id === pendingDelete.id
         ? {
             ...estimate,
@@ -86,6 +97,7 @@ const App = () => {
           {activeEstimate ? (
             <EstimateEditor
               estimate={activeEstimate}
+              saveStatus={saveStatus}
               onChange={updateEstimate}
               onRequestDeleteItem={requestDeleteItem}
             />

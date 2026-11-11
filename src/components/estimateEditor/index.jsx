@@ -5,7 +5,7 @@ import styles from './styles.module.css'
 const currencyOptions = ['USD', 'EUR', 'GBP', 'INR']
 const phaseOptions = ['Plan', 'Design', 'Build', 'Review', 'Launch']
 
-const EstimateEditor = ({ estimate, onChange, onRequestDeleteItem }) => {
+const EstimateEditor = ({ estimate, saveStatus, onChange, onRequestDeleteItem }) => {
   const updateField = (field, value) => {
     onChange({ ...estimate, [field]: value, updatedAt: new Date().toISOString() })
   }
@@ -35,7 +35,7 @@ const EstimateEditor = ({ estimate, onChange, onRequestDeleteItem }) => {
           <h2 id="estimate-title">Project details</h2>
           <p>Add the project information and list the work it needs.</p>
         </div>
-        <span className={styles.saved}>Saved in this browser</span>
+        <span className={styles.saved} role="status">{saveStatus}</span>
       </div>
 
       <div className={styles.projectFields}>

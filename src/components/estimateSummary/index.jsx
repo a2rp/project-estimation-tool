@@ -2,7 +2,11 @@ import { LuDownload, LuPrinter } from 'react-icons/lu'
 import { calculateEstimate, formatMoney } from '../../data/estimates.js'
 import styles from './styles.module.css'
 
-const csvCell = (value) => '"' + String(value).replace(/"/g, '""') + '"'
+const csvCell = (value) => {
+  const text = String(value ?? '')
+  const safeText = /^\s*[=+\-@]/.test(text) ? "'" + text : text
+  return '"' + safeText.replace(/"/g, '""') + '"'
+}
 
 const EstimateSummary = ({ estimate, onChange }) => {
   const totals = calculateEstimate(estimate)
@@ -36,7 +40,7 @@ const EstimateSummary = ({ estimate, onChange }) => {
       ['Estimate total', totals.total],
     ]
     const csv = rows.map((row) => row.map(csvCell).join(',')).join('\n')
-    const file = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    const file = new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' })
     const url = URL.createObjectURL(file)
     const link = document.createElement('a')
     const fileName = estimate.title.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -44,7 +48,7 @@ const EstimateSummary = ({ estimate, onChange }) => {
     link.href = url
     link.download = (fileName || 'project-estimate') + '.csv'
     link.click()
-    URL.revokeObjectURL(url)
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 
   return (
